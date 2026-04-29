@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Conception – Agence IA & Développement</title>
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/syne@5/index.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/dm-sans@5/index.min.css" rel="stylesheet">
+<style>
+:root {
+  --violet: #7c3aed;
+  --violet-light: #a78bfa;
+  --blue: #2563eb;
+  --blue-light: #60a5fa;
+  --bg: #07070e;
+  --bg2: #0d0d1a;
+  --bg3: #111124;
+  --text: #e8e8f5;
+  --muted: #6666aa;
+  --border: rgba(124,58,237,0.18);
+  --grad: linear-gradient(135deg, #7c3aed, #2563eb);
+  --grad-text: linear-gradient(90deg, #a78bfa, #60a5fa);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* ── CANVAS ── */
+#stars-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.5; }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.1rem 3rem;
+  background:rgba(7,7,14,0.85); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:padding 0.3s;
+}
+nav.scrolled { padding:0.7rem 3rem; }
+.logo {
+  font-family:'Syne',sans-serif; font-size:1.35rem; font-weight:800;
+  background:var(--grad-text); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a {
+  color:var(--muted); text-decoration:none; font-size:0.88rem; font-weight:500;
+  transition:color 0.2s; position:relative;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-3px; left:0;
+  width:0; height:1.5px; background:var(--grad-text); transition:width 0.3s;
+}
+.nav-links a:hover { color:var(--text); }
+.nav-links a:hover::after { width:100%; }
+.nav-cta {
+  background:var(--grad); color:#fff; border:none;
+  padding:0.55rem 1.5rem; border-radius:50px;
+  font-size:0.85rem; font-weight:600; cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:opacity 0.2s, transform 0.2s;
+  box-shadow:0 0 20px rgba(124,58,237,0.3);
+}
+.nav-cta:hover { opacity:0.88; transform:translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  position:relative; z-index:1;
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:7rem 2rem 4rem; overflow:hidden;
+}
+.orb { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
+.orb1 {
+  width:500px; height:500px;
+  background:radial-gradient(circle,rgba(124,58,237,0.25),transparent 70%);
+  top:-100px; left:50%; transform:translateX(-50%);
+  animation:orbFloat1 8s ease-in-out infinite;
+}
+.orb2 {
+  width:350px; height:350px;
+  background:radial-gradient(circle,rgba(37,99,235,0.2),transparent 70%);
+  bottom:100px; right:-80px;
+  animation:orbFloat2 10s ease-in-out infinite;
+}
+.orb3 {
+  width:250px; height:250px;
+  background:radial-gradient(circle,rgba(167,139,250,0.15),transparent 70%);
+  top:200px; left:-60px;
+  animation:orbFloat3 7s ease-in-out infinite;
+}
+@keyframes orbFloat1 { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-30px)} }
+@keyframes orbFloat2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+@keyframes orbFloat3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(25px)} }
+
+.hero-grid {
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(124,58,237,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,58,237,0.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black,transparent);
+  pointer-events:none;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.35);
+  color:var(--violet-light); padding:0.4rem 1.1rem; border-radius:50px;
+  font-size:0.78rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+  margin-bottom:2rem; animation:fadeDown 0.8s ease both;
+}
+.badge-dot {
+  width:6px; height:6px; border-radius:50%; background:var(--violet-light);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+.hero h1 {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.4rem,6vw,4.2rem); font-weight:800;
+  line-height:1.08; letter-spacing:-1.5px; color:#f0f0ff;
+  margin-bottom:1.4rem; animation:fadeUp 0.9s ease 0.1s both;
+}
+.hero h1 .grad { background:var(--grad-text); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p {
+  font-size:1.1rem; color:var(--muted); max-width:560px;
+  line-height:1.75; margin-bottom:2.8rem; animation:fadeUp 0.9s ease 0.2s both;
+}
+.hero-btns { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; animation:fadeUp 0.9s ease 0.3s both; }
+.btn-main {
+  background:var(--grad); color:#fff; border:none;
+  padding:1rem 2.2rem; border-radius:50px;
+  font-size:0.97rem; font-weight:700; cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  box-shadow:0 0 30px rgba(124,58,237,0.35);
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.btn-main:hover { transform:translateY(-2px); box-shadow:0 0 45px rgba(124,58,237,0.5); }
+.btn-ghost {
+  background:transparent; color:var(--violet-light);
+  border:1.5px solid rgba(167,139,250,0.35);
+  padding:1rem 2.2rem; border-radius:50px;
+  font-size:0.97rem; font-weight:600; cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:border-color 0.2s, background 0.2s;
+}
+.btn-ghost:hover { border-color:rgba(167,139,250,0.7); background:rgba(167,139,250,0.06); }
+.scroll-hint {
+  position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:0.4rem;
+  color:var(--muted); font-size:0.72rem; letter-spacing:1px; text-transform:uppercase;
+  animation:fadeIn 1.2s ease 0.8s both;
+}
+.scroll-line {
+  width:1px; height:40px;
+  background:linear-gradient(to bottom,var(--violet-light),transparent);
+  animation:scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim {
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+
+/* ── STATS ── */
+.stats-bar {
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  background:rgba(13,13,26,0.8); backdrop-filter:blur(8px);
+}
+.stat-item {
+  text-align:center; padding:2rem 1rem;
+  border-right:1px solid var(--border);
+  transition:background 0.3s;
+}
+.stat-item:last-child { border-right:none; }
+.stat-item:hover { background:rgba(124,58,237,0.06); }
+.stat-num {
+  font-family:'Syne',sans-serif; font-size:2rem; font-weight:800;
+  background:var(--grad-text); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.stat-lbl { font-size:0.78rem; color:var(--muted); margin-top:0.3rem; }
+
+/* ── SECTIONS ── */
+section { position:relative; z-index:1; }
+.section-inner { max-width:1100px; margin:0 auto; padding:5rem 2rem; }
+.section-label {
+  font-size:0.72rem; font-weight:700; letter-spacing:2.5px;
+  text-transform:uppercase; color:var(--violet-light); margin-bottom:0.8rem;
+}
+.section-title {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800;
+  color:#f0f0ff; letter-spacing:-0.8px; line-height:1.15; margin-bottom:1rem;
+}
+.section-sub { color:var(--muted); font-size:1rem; line-height:1.7; max-width:520px; }
+
+/* ── SERVICES CARDS ── */
+.services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; margin-top:3rem; }
+.srv-card {
+  background:rgba(255,255,255,0.025); border:1px solid var(--border);
+  border-radius:20px; padding:2rem 1.6rem;
+  position:relative; overflow:hidden;
+  transition:border-color 0.3s, transform 0.3s, background 0.3s;
+  cursor:pointer;
+}
+.srv-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(124,58,237,0.08),transparent 60%);
+  opacity:0; transition:opacity 0.3s;
+}
+.srv-card:hover { border-color:rgba(167,139,250,0.55); transform:translateY(-6px); background:rgba(255,255,255,0.04); }
+.srv-card:hover::before { opacity:1; }
+.srv-card.featured { border-color:rgba(124,58,237,0.45); background:rgba(124,58,237,0.07); }
+.srv-featured-badge {
+  position:absolute; top:1rem; right:1rem;
+  background:var(--grad); color:#fff;
+  font-size:0.68rem; font-weight:700;
+  padding:0.25rem 0.7rem; border-radius:50px; letter-spacing:0.5px;
+}
+.srv-icon {
+  width:52px; height:52px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; margin-bottom:1.3rem;
+  background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(37,99,235,0.15));
+  border:1px solid rgba(124,58,237,0.2);
+  position:relative; z-index:1;
+}
+.srv-card h3 {
+  font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700;
+  color:#e8e8f5; margin-bottom:0.6rem; position:relative; z-index:1;
+}
+.srv-card p { font-size:0.85rem; color:var(--muted); line-height:1.65; position:relative; z-index:1; }
+.srv-price {
+  display:inline-block; margin-top:1.2rem;
+  font-size:0.82rem; font-weight:700; color:var(--violet-light);
+  background:rgba(124,58,237,0.12); border:1px solid rgba(124,58,237,0.25);
+  padding:0.3rem 0.9rem; border-radius:50px; position:relative; z-index:1;
+}
+.srv-cta {
+  display:block; margin-top:1rem;
+  font-size:0.82rem; font-weight:600; color:var(--blue-light);
+  position:relative; z-index:1; opacity:0;
+  transition:opacity 0.3s;
+}
+.srv-card:hover .srv-cta { opacity:1; }
+
+/* ── PROCESS ── */
+.process-bg { background:var(--bg2); }
+.process-steps {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:0; margin-top:3rem; position:relative;
+}
+.process-steps::before {
+  content:''; position:absolute;
+  top:28px; left:10%; width:80%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--violet),var(--blue),transparent);
+}
+.proc-step { text-align:center; padding:0 1.5rem 2rem; position:relative; }
+.proc-num {
+  width:56px; height:56px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 1.3rem;
+  font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800;
+  background:var(--grad); color:#fff;
+  position:relative; z-index:1;
+  box-shadow:0 0 20px rgba(124,58,237,0.4);
+}
+.proc-step h4 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:#e8e8f5; margin-bottom:0.5rem; }
+.proc-step p { font-size:0.83rem; color:var(--muted); line-height:1.6; }
+
+/* ── MODAL CHATBOT ── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  padding:1rem;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.35s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal-box {
+  background:var(--bg2);
+  border:1px solid rgba(124,58,237,0.3);
+  border-radius:24px;
+  width:100%; max-width:560px;
+  max-height:90vh;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  transform:translateY(30px) scale(0.97);
+  transition:transform 0.35s cubic-bezier(0.34,1.3,0.64,1);
+  position:relative;
+}
+.modal-overlay.open .modal-box { transform:translateY(0) scale(1); }
+.modal-top-bar {
+  height:3px;
+  background:var(--grad);
+}
+.modal-header {
+  padding:1.4rem 1.6rem 1rem;
+  border-bottom:1px solid rgba(124,58,237,0.12);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.modal-service-info { display:flex; align-items:center; gap:0.8rem; }
+.modal-icon {
+  width:42px; height:42px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+  background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(37,99,235,0.2));
+  border:1px solid rgba(124,58,237,0.25);
+}
+.modal-service-name { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; color:#f0f0ff; }
+.modal-service-sub { font-size:0.78rem; color:var(--muted); }
+.modal-close {
+  width:34px; height:34px; border-radius:50%;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+  color:var(--muted); font-size:1.1rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background 0.2s, color 0.2s;
+}
+.modal-close:hover { background:rgba(255,255,255,0.12); color:#fff; }
+
+/* CHAT AREA */
+.chat-area {
+  flex:1; overflow-y:auto; padding:1.4rem 1.6rem;
+  display:flex; flex-direction:column; gap:1rem;
+  scroll-behavior:smooth;
+}
+.chat-area::-webkit-scrollbar { width:4px; }
+.chat-area::-webkit-scrollbar-track { background:transparent; }
+.chat-area::-webkit-scrollbar-thumb { background:rgba(124,58,237,0.3); border-radius:4px; }
+
+/* Messages */
+.msg { display:flex; gap:0.7rem; animation:msgIn 0.4s cubic-bezier(0.34,1.3,0.64,1) both; }
+@keyframes msgIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.msg.bot { align-items:flex-start; }
+.msg.user { align-items:flex-end; flex-direction:row-reverse; }
+.bot-avatar {
+  width:32px; height:32px; border-radius:50%; flex-shrink:0;
+  background:var(--grad);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:#fff; font-weight:700;
+}
+.msg-bubble {
+  max-width:80%; padding:0.8rem 1.1rem;
+  border-radius:16px; font-size:0.9rem; line-height:1.6;
+}
+.msg.bot .msg-bubble {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(124,58,237,0.15);
+  border-top-left-radius:4px; color:var(--text);
+}
+.msg.user .msg-bubble {
+  background:var(--grad);
+  color:#fff; border-top-right-radius:4px;
+  box-shadow:0 0 15px rgba(124,58,237,0.3);
+}
+
+/* Typing indicator */
+.typing-bubble {
+  display:flex; align-items:flex-start; gap:0.7rem;
+  animation:msgIn 0.3s ease both;
+}
+.typing-dots {
+  padding:0.9rem 1.1rem;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(124,58,237,0.15);
+  border-radius:16px; border-top-left-radius:4px;
+  display:flex; gap:5px; align-items:center;
+}
+.typing-dots span {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--violet-light); display:block;
+  animation:dot 1.2s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay:0.2s; }
+.typing-dots span:nth-child(3) { animation-delay:0.4s; }
+@keyframes dot { 0%,80%,100%{transform:scale(0.6);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+
+/* Options (boutons de choix rapide) */
+.options-wrap { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.3rem; padding-left:40px; animation:msgIn 0.5s ease 0.1s both; }
+.opt-btn {
+  background:rgba(124,58,237,0.1);
+  border:1px solid rgba(124,58,237,0.3);
+  color:var(--violet-light); padding:0.5rem 1rem;
+  border-radius:50px; font-size:0.83rem; font-weight:500;
+  cursor:pointer; font-family:'DM Sans',sans-serif;
+  transition:background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.opt-btn:hover { background:rgba(124,58,237,0.22); border-color:rgba(167,139,250,0.5); transform:translateY(-1px); }
+.opt-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+
+/* Récapitulatif final */
+.recap-card {
+  background:rgba(124,58,237,0.08);
+  border:1px solid rgba(124,58,237,0.25);
+  border-radius:14px; padding:1rem 1.2rem;
+  margin-top:0.3rem; font-size:0.85rem;
+}
+.recap-card h4 { font-family:'Syne',sans-serif; font-size:0.92rem; font-weight:700; color:var(--violet-light); margin-bottom:0.7rem; }
+.recap-row { display:flex; justify-content:space-between; padding:0.3rem 0; border-bottom:1px solid rgba(124,58,237,0.1); }
+.recap-row:last-child { border-bottom:none; }
+.recap-key { color:var(--muted); }
+.recap-val { color:#e0e0f5; font-weight:500; text-align:right; max-width:60%; }
+
+/* Input zone */
+.chat-input-zone {
+  padding:1rem 1.4rem 1.4rem;
+  border-top:1px solid rgba(124,58,237,0.12);
+  display:flex; gap:0.7rem; align-items:flex-end;
+}
+.chat-input {
+  flex:1; background:rgba(255,255,255,0.05);
+  border:1px solid rgba(124,58,237,0.2);
+  border-radius:14px; padding:0.75rem 1rem;
+  color:#e0e0f5; font-size:0.9rem;
+  font-family:'DM Sans',sans-serif;
+  resize:none; outline:none; min-height:44px; max-height:120px;
+  line-height:1.5;
+  transition:border-color 0.25s, box-shadow 0.25s;
+}
+.chat-input:focus { border-color:rgba(167,139,250,0.5); box-shadow:0 0 0 3px rgba(124,58,237,0.1); }
+.chat-input::placeholder { color:rgba(100,100,170,0.6); }
+.send-btn {
+  width:44px; height:44px; border-radius:12px;
+  background:var(--grad); border:none; color:#fff;
+  font-size:1.1rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 0 15px rgba(124,58,237,0.3);
+  transition:transform 0.15s, box-shadow 0.2s;
+}
+.send-btn:hover { transform:scale(1.08); box-shadow:0 0 25px rgba(124,58,237,0.5); }
+.send-btn:disabled { opacity:0.4; cursor:default; transform:none; }
+
+/* Fin du chat — bouton envoi final */
+.final-send-btn {
+  width:100%; background:var(--grad); color:#fff; border:none;
+  padding:0.9rem; border-radius:50px;
+  font-size:0.95rem; font-weight:700;
+  cursor:pointer; font-family:'DM Sans',sans-serif;
+  box-shadow:0 0 20px rgba(124,58,237,0.3);
+  margin-top:0.8rem;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.final-send-btn:hover { transform:translateY(-2px); box-shadow:0 0 35px rgba(124,58,237,0.5); }
+
+/* Succès */
+.chat-success {
+  text-align:center; padding:2.5rem 1.5rem; display:none;
+}
+.success-ring {
+  width:80px; height:80px; border-radius:50%;
+  background:linear-gradient(135deg,rgba(124,58,237,0.25),rgba(37,99,235,0.2));
+  border:2px solid rgba(124,58,237,0.4);
+  display:flex; align-items:center; justify-content:center;
+  font-size:2rem; margin:0 auto 1.5rem;
+  animation:ringPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes ringPop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.chat-success h3 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--violet-light); margin-bottom:0.6rem; }
+.chat-success p { color:var(--muted); font-size:0.9rem; line-height:1.7; }
+
+/* ── FOOTER ── */
+footer {
+  position:relative; z-index:1;
+  text-align:center; padding:2.5rem 2rem;
+  border-top:1px solid var(--border);
+  color:#3d3d66; font-size:0.82rem;
+}
+footer span { color:var(--violet); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@media(max-width:768px) {
+  nav { padding:1rem 1.5rem; }
+  .nav-links { display:none; }
+  .stats-bar { grid-template-columns:repeat(2,1fr); }
+  .stat-item:nth-child(2) { border-right:none; }
+  .process-steps::before { display:none; }
+  .modal-box { max-height:95vh; border-radius:16px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- ══ NAV ══ -->
+<nav id="navbar">
+  <div class="logo">Nova Conception</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Processus</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openChat('site')">Démarrer un projet</button>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge"><div class="badge-dot"></div>Agence IA & Développement · Abidjan</div>
+  <h1>Votre présence digitale,<br><span class="grad">propulsée par l'IA</span></h1>
+  <p>Sites web, logiciels de gestion et applications sur mesure — conçus avec intelligence pour les entreprises ivoiriennes qui veulent aller plus loin.</p>
+  <div class="hero-btns">
+    <button class="btn-main" onclick="openChat('site')">Démarrer votre projet ↗</button>
+    <button class="btn-ghost" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Voir nos services</button>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>Défiler</div>
+</section>
+
+<!-- ══ STATS ══ -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">48h</div><div class="stat-lbl">Délai moyen de livraison</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-lbl">Sur mesure</div></div>
+  <div class="stat-item"><div class="stat-num">IA</div><div class="stat-lbl">Intégrée dans chaque projet</div></div>
+  <div class="stat-item"><div class="stat-num">CI</div><div class="stat-lbl">Basé en Côte d'Ivoire</div></div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section id="services">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-label">Nos prestations</div>
+      <h2 class="section-title">Des solutions digitales<br>taillées pour votre activité</h2>
+      <p class="section-sub">Cliquez sur un service pour démarrer votre demande — notre assistant vous guide en quelques questions.</p>
+    </div>
+    <div class="services-grid">
+      <div class="srv-card reveal" style="transition-delay:0.1s" onclick="openChat('site')">
+        <div class="srv-icon">🌐</div>
+        <h3>Site web professionnel</h3>
+        <p>Vitrine moderne, e-commerce ou site sur mesure pour booster votre visibilité en ligne.</p>
+        <div class="srv-price">À partir de 50 000 FCFA</div>
+        <span class="srv-cta">Cliquez pour démarrer →</span>
+      </div>
+      <div class="srv-card featured reveal" style="transition-delay:0.2s" onclick="openChat('logiciel')">
+        <div class="srv-featured-badge">Populaire</div>
+        <div class="srv-icon">🖥️</div>
+        <h3>Logiciel de caisse & gestion</h3>
+        <p>Gestion des ventes, stocks et facturation pour boulangeries, restaurants, pharmacies.</p>
+        <div class="srv-price">À partir de 120 000 FCFA</div>
+        <span class="srv-cta">Cliquez pour démarrer →</span>
+      </div>
+      <div class="srv-card reveal" style="transition-delay:0.3s" onclick="openChat('ia')">
+        <div class="srv-icon">🤖</div>
+        <h3>Intégration IA</h3>
+        <p>Ajoutez un assistant intelligent à votre site ou application existante pour épater vos clients.</p>
+        <div class="srv-price">Sur devis</div>
+        <span class="srv-cta">Cliquez pour démarrer →</span>
+      </div>
+      <div class="srv-card reveal" style="transition-delay:0.4s" onclick="openChat('app')">
+        <div class="srv-icon">📱</div>
+        <h3>Application personnalisée</h3>
+        <p>Outil digital sur mesure pour automatiser et simplifier vos opérations au quotidien.</p>
+        <div class="srv-price">À partir de 7 000 FCFA</div>
+        <span class="srv-cta">Cliquez pour démarrer →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESS ══ -->
+<section id="process" class="process-bg">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label">Comment ça marche</div>
+      <h2 class="section-title">Simple, rapide, efficace</h2>
+    </div>
+    <div class="process-steps">
+      <div class="proc-step reveal" style="transition-delay:0.1s">
+        <div class="proc-num">1</div>
+        <h4>Vous décrivez</h4>
+        <p>Cliquez sur votre service et répondez aux questions de notre assistant.</p>
+      </div>
+      <div class="proc-step reveal" style="transition-delay:0.25s">
+        <div class="proc-num">2</div>
+        <h4>On analyse</h4>
+        <p>Notre équipe étudie votre projet et vous contacte pour un devis clair.</p>
+      </div>
+      <div class="proc-step reveal" style="transition-delay:0.4s">
+        <div class="proc-num">3</div>
+        <h4>On développe</h4>
+        <p>Conception et livraison dans les délais convenus, avec suivi régulier.</p>
+      </div>
+      <div class="proc-step reveal" style="transition-delay:0.55s">
+        <div class="proc-num">4</div>
+        <h4>Vous lancez</h4>
+        <p>Mise en ligne, formation et accompagnement pour démarrer sereinement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact" style="padding:5rem 2rem; text-align:center">
+  <div class="section-label" style="margin-bottom:0.8rem">Contact direct</div>
+  <h2 class="section-title" style="margin-bottom:1rem">Parlons de votre projet</h2>
+  <p style="color:var(--muted); margin-bottom:2rem; font-size:0.95rem">Choisissez votre service ci-dessus ou contactez-nous directement sur WhatsApp.</p>
+  <a href="https://wa.me/2250171542505" target="_blank" style="display:inline-flex;align-items:center;gap:0.6rem;background:var(--grad);color:#fff;padding:1rem 2.2rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:0.97rem;box-shadow:0 0 30px rgba(124,58,237,0.35);transition:transform 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+    💬 Nous écrire sur WhatsApp
+  </a>
+</section>
+
+<footer>
+  <p>© 2025 <span>Nova Conception</span> · Abidjan, Côte d'Ivoire · Tous droits réservés</p>
+  <p style="margin-top:0.4rem">Une filiale de <span>Nova Platform</span> · L'intelligence artificielle au service de votre réussite</p>
+</footer>
+
+<!-- ══ MODAL CHATBOT ══ -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-top-bar"></div>
+    <div class="modal-header">
+      <div class="modal-service-info">
+        <div class="modal-icon" id="modal-icon">🌐</div>
+        <div>
+          <div class="modal-service-name" id="modal-service-name">Site web</div>
+          <div class="modal-service-sub">Assistant Nova Conception</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="chat-area" id="chat-area"></div>
+    <div class="chat-success" id="chat-success">
+      <div class="success-ring">✓</div>
+      <h3>Demande envoyée !</h3>
+      <p id="success-msg">Merci ! Notre équipe va analyser votre projet et vous contactera sur WhatsApp dans les 24h.</p>
+    </div>
+    <div class="chat-input-zone" id="chat-input-zone">
+      <textarea class="chat-input" id="chat-input" placeholder="Tapez votre réponse..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendUserMsg()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════
+   ÉTOILES ANIMÉES
+══════════════════════════════════ */
+try {
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 130; i++) {
+    stars.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*1.2+0.2, o:Math.random(), speed:Math.random()*0.3+0.05, dir:Math.random()>0.5?1:-1 });
+  }
+}
+function drawStars() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s => {
+    s.o += s.speed*0.01*s.dir;
+    if(s.o>1||s.o<0.1) s.dir*=-1;
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(167,139,250,${s.o})`; ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+resizeCanvas(); initStars(); drawStars();
+window.addEventListener('resize', ()=>{ resizeCanvas(); initStars(); });
+} catch(e) { console.warn('Canvas non supporté:', e); }
+
+/* ══════════════════════════════════
+   NAV SCROLL
+══════════════════════════════════ */
+window.addEventListener('scroll', ()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50);
+});
+
+/* ══════════════════════════════════
+   REVEAL ON SCROLL
+══════════════════════════════════ */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ══════════════════════════════════
+   DONNÉES DES SERVICES & QUESTIONS
+══════════════════════════════════ */
+const SERVICES = {
+  site: {
+    icon: '🌐',
+    name: 'Site web professionnel',
+    intro: "Bonjour ! 👋 Je suis l'assistant Nova Conception. Je vais vous aider à préciser votre projet de site web en quelques questions.",
+    questions: [
+      {
+        id: 'domaine',
+        text: "Tout d'abord, quel est votre domaine d'activité ?",
+        type: 'options',
+        opts: ['🥐 Boulangerie / Pâtisserie', '🍽️ Restaurant / Maquis', '💊 Pharmacie', '🛒 Supermarché / Commerce', '✂️ Salon / Beauté', '🏢 Entreprise / Bureau', '🔧 Autre'],
+      },
+      {
+        id: 'type_site',
+        text: "Très bien ! Quel type de site souhaitez-vous créer ?",
+        type: 'options',
+        opts: ['🪟 Site vitrine (présenter mon activité)', '🛍️ Site e-commerce (vendre en ligne)', '📅 Site avec réservation en ligne', '📰 Blog / Site d\'information', '🤔 Je ne sais pas encore'],
+      },
+      {
+        id: 'contenu',
+        text: "Avez-vous déjà du contenu prêt (textes, photos, logo) ?",
+        type: 'options',
+        opts: ['✅ Oui, j\'ai tout', '📝 J\'ai les textes mais pas les photos', '🖼️ J\'ai les photos mais pas les textes', '❌ Non, j\'ai besoin d\'aide pour tout'],
+      },
+      {
+        id: 'budget',
+        text: "Quel est votre budget approximatif pour ce projet ?",
+        type: 'options',
+        opts: ['50 000 – 80 000 FCFA', '80 000 – 150 000 FCFA', '150 000 FCFA et plus', '📞 Je préfère en discuter'],
+      },
+      {
+        id: 'delai',
+        text: "Dans quel délai souhaitez-vous avoir votre site ?",
+        type: 'options',
+        opts: ['⚡ Le plus vite possible (moins de 2 semaines)', '📅 Dans 1 mois', '🗓️ Dans 2 à 3 mois', '🔮 Pas de délai précis'],
+      },
+      {
+        id: 'contact',
+        text: "Parfait ! Pour finir, quel est votre nom et votre numéro WhatsApp pour qu'on vous rappelle ?",
+        type: 'text',
+        placeholder: 'Ex : Koné Amadou – +225 07 XX XX XX XX',
+      },
+    ]
+  },
+
+  logiciel: {
+    icon: '🖥️',
+    name: 'Logiciel de caisse & gestion',
+    intro: "Bonjour ! 👋 Je suis l'assistant Nova Conception. Je vais vous poser quelques questions pour comprendre vos besoins en logiciel de gestion.",
+    questions: [
+      {
+        id: 'secteur',
+        text: "Dans quel secteur exercez-vous votre activité ?",
+        type: 'options',
+        opts: ['🥐 Boulangerie / Pâtisserie', '🍽️ Restaurant / Maquis / Fast-food', '💊 Pharmacie / Parapharmacie', '🛒 Supermarché / Épicerie', '✂️ Salon de coiffure / Beauté', '🏭 Autre commerce ou entreprise'],
+      },
+      {
+        id: 'fonctions',
+        text: "Quelles fonctionnalités vous intéressent le plus ?",
+        type: 'options',
+        opts: ['💰 Gestion des ventes & caisse', '📦 Gestion des stocks', '👥 Gestion des clients (fidélité)', '📊 Rapports & statistiques', '🖨️ Impression de reçus / factures', '📱 Tout cela à la fois'],
+      },
+      {
+        id: 'nbr_postes',
+        text: "Combien de postes (ordinateurs ou tablettes) utiliserez-vous ?",
+        type: 'options',
+        opts: ['1 poste (caisse unique)', '2 à 3 postes', '4 postes et plus', '🤔 Je ne sais pas encore'],
+      },
+      {
+        id: 'existant',
+        text: "Utilisez-vous actuellement un logiciel ou gérez-vous tout manuellement ?",
+        type: 'options',
+        opts: ['📓 Tout à la main (cahier)', '📊 Excel / Google Sheets', '💻 Un logiciel mais je veux changer', '🆕 Je n\'ai rien pour l\'instant'],
+      },
+      {
+        id: 'budget',
+        text: "Quel est votre budget prévu pour ce logiciel ?",
+        type: 'options',
+        opts: ['120 000 – 200 000 FCFA', '200 000 – 400 000 FCFA', '400 000 FCFA et plus', '📞 Je préfère en discuter'],
+      },
+      {
+        id: 'contact',
+        text: "Excellent choix ! Donnez-nous votre nom et votre WhatsApp pour qu'on vous prépare un devis personnalisé.",
+        type: 'text',
+        placeholder: 'Ex : Traoré Fatou – +225 05 XX XX XX XX',
+      },
+    ]
+  },
+
+  ia: {
+    icon: '🤖',
+    name: 'Intégration IA',
+    intro: "Bonjour ! 👋 Je suis l'assistant Nova Conception. L'intégration de l'IA peut transformer votre activité. Quelques questions pour mieux vous orienter.",
+    questions: [
+      {
+        id: 'domaine',
+        text: "Quel est votre domaine d'activité principal ?",
+        type: 'options',
+        opts: ['🛒 Commerce / Vente', '🏥 Santé / Pharmacie', '🎓 Éducation / Formation', '🏦 Finance / Banque', '🏢 Services / Consulting', '🔧 Autre'],
+      },
+      {
+        id: 'usage_ia',
+        text: "Que souhaitez-vous faire avec l'IA ?",
+        type: 'options',
+        opts: ['💬 Chatbot pour répondre aux clients 24h/24', '📝 Génération automatique de documents', '📊 Analyse et résumé de données', '🔍 Recherche intelligente dans mes fichiers', '🤖 Assistant personnalisé pour mon équipe', '🤔 Je veux des conseils'],
+      },
+      {
+        id: 'site_existant',
+        text: "Avez-vous déjà un site web ou une application ?",
+        type: 'options',
+        opts: ['✅ Oui, j\'ai un site web', '📱 Oui, j\'ai une application', '🆕 Non, il faut tout créer', '🔧 J\'ai les deux'],
+      },
+      {
+        id: 'niveau_tech',
+        text: "Quel est votre niveau de familiarité avec les outils numériques ?",
+        type: 'options',
+        opts: ['🟢 À l\'aise avec le digital', '🟡 Niveau intermédiaire', '🔴 Débutant, j\'ai besoin d\'accompagnement'],
+      },
+      {
+        id: 'contact',
+        text: "Merci pour ces informations ! Laissez-nous votre nom et WhatsApp pour qu'un expert vous contacte.",
+        type: 'text',
+        placeholder: 'Ex : Diallo Ibrahim – +225 01 XX XX XX XX',
+      },
+    ]
+  },
+
+  app: {
+    icon: '📱',
+    name: 'Application personnalisée',
+    intro: "Bonjour ! 👋 Je suis l'assistant Nova Conception. Une application sur mesure peut tout changer pour votre activité. Commençons !",
+    questions: [
+      {
+        id: 'domaine',
+        text: "Quel est votre secteur d'activité ?",
+        type: 'options',
+        opts: ['🏪 Commerce / Boutique', '🍽️ Restauration', '🎓 Éducation / Formation', '🏥 Santé', '🚗 Transport / Livraison', '🏢 Entreprise / Services', '🔧 Autre'],
+      },
+      {
+        id: 'type_app',
+        text: "Quel type d'application cherchez-vous à créer ?",
+        type: 'options',
+        opts: ['📋 Application de gestion interne', '🛍️ Application pour mes clients', '📦 Système de suivi / livraison', '📅 Application de réservation', '📊 Tableau de bord & rapports', '🤔 Autre (je vais décrire)'],
+      },
+      {
+        id: 'plateforme',
+        text: "Sur quelle plateforme voulez-vous votre application ?",
+        type: 'options',
+        opts: ['💻 Web (accessible via navigateur)', '📱 Mobile Android', '🍎 Mobile iOS (iPhone)', '💻📱 Web + Mobile les deux'],
+      },
+      {
+        id: 'utilisateurs',
+        text: "Combien de personnes utiliseront cette application ?",
+        type: 'options',
+        opts: ['1 à 5 utilisateurs', '6 à 20 utilisateurs', '20 à 100 utilisateurs', '100+ utilisateurs'],
+      },
+      {
+        id: 'budget',
+        text: "Quel budget avez-vous prévu pour ce projet ?",
+        type: 'options',
+        opts: ['7 000 – 50 000 FCFA', '50 000 – 150 000 FCFA', '150 000 – 500 000 FCFA', '500 000 FCFA et plus', '📞 À discuter'],
+      },
+      {
+        id: 'besoin_libre',
+        text: "En quelques mots, décrivez ce que doit faire votre application.",
+        type: 'text',
+        placeholder: 'Ex : Je veux une app pour gérer les livraisons de mon restaurant et notifier les clients...',
+      },
+      {
+        id: 'contact',
+        text: "Super projet ! Donnez-nous votre nom et votre WhatsApp pour qu'on prépare votre devis.",
+        type: 'text',
+        placeholder: 'Ex : Coulibaly Marie – +225 07 XX XX XX XX',
+      },
+    ]
+  }
+};
+
+/* ══════════════════════════════════
+   ÉTAT DU CHATBOT
+══════════════════════════════════ */
+let currentService = null;
+let currentStep = 0;
+let answers = {};
+let waitingForText = false;
+let chatEnded = false;
+
+/* ══════════════════════════════════
+   OUVRIR / FERMER MODAL
+══════════════════════════════════ */
+function openChat(serviceKey) {
+  currentService = SERVICES[serviceKey];
+  currentStep = 0;
+  answers = { service: currentService.name };
+  waitingForText = false;
+  chatEnded = false;
+
+  document.getElementById('modal-icon').textContent = currentService.icon;
+  document.getElementById('modal-service-name').textContent = currentService.name;
+
+  const chatArea = document.getElementById('chat-area');
+  chatArea.innerHTML = '';
+  document.getElementById('chat-success').style.display = 'none';
+  document.getElementById('chat-input-zone').style.display = 'flex';
+  document.getElementById('chat-input').value = '';
+  document.getElementById('send-btn').disabled = false;
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  setTimeout(() => {
+    addBotMsg(currentService.intro);
+    setTimeout(() => askQuestion(0), 900);
+  }, 400);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+/* ══════════════════════════════════
+   LOGIQUE DU CHAT
+══════════════════════════════════ */
+function askQuestion(index) {
+  const q = currentService.questions[index];
+  if (!q) return;
+
+  showTyping(() => {
+    addBotMsg(q.text);
+    if (q.type === 'options') {
+      addOptions(q.opts, index);
+      setInputEnabled(false);
+    } else {
+      document.getElementById('chat-input').placeholder = q.placeholder || 'Votre réponse...';
+      setInputEnabled(true);
+      waitingForText = true;
+      setTimeout(() => document.getElementById('chat-input').focus(), 100);
+    }
+  });
+}
+
+function handleOptionClick(value, questionIndex, btn) {
+  // Désactiver tous les boutons de cette question
+  const allBtns = document.querySelectorAll(`.opts-group-${questionIndex} .opt-btn`);
+  allBtns.forEach(b => b.disabled = true);
+  btn.style.background = 'rgba(124,58,237,0.3)';
+  btn.style.borderColor = 'rgba(167,139,250,0.6)';
+  btn.style.color = '#fff';
+
+  const q = currentService.questions[questionIndex];
+  answers[q.id] = value;
+
+  addUserMsg(value);
+
+  currentStep++;
+  if (currentStep < currentService.questions.length) {
+    setTimeout(() => askQuestion(currentStep), 700);
+  } else {
+    setTimeout(() => showRecap(), 700);
+  }
+}
+
+function sendUserMsg() {
+  if (!waitingForText || chatEnded) return;
+  const input = document.getElementById('chat-input');
+  const val = input.value.trim();
+  if (!val) return;
+
+  input.value = '';
+  autoResize(input);
+  setInputEnabled(false);
+  waitingForText = false;
+
+  const q = currentService.questions[currentStep];
+  answers[q.id] = val;
+
+  addUserMsg(val);
+
+  currentStep++;
+  if (currentStep < currentService.questions.length) {
+    setTimeout(() => askQuestion(currentStep), 700);
+  } else {
+    setTimeout(() => showRecap(), 700);
+  }
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendUserMsg();
+  }
+}
+
+/* ══════════════════════════════════
+   RÉCAPITULATIF FINAL
+══════════════════════════════════ */
+function showRecap() {
+  chatEnded = true;
+  setInputEnabled(false);
+  document.getElementById('chat-input-zone').style.display = 'none';
+
+  showTyping(() => {
+    addBotMsg("Merci pour toutes ces informations ! 🎉 Voici le récapitulatif de votre demande :");
+
+    const chatArea = document.getElementById('chat-area');
+    const recapEl = document.createElement('div');
+    recapEl.style.paddingLeft = '40px';
+    recapEl.style.animation = 'msgIn 0.4s ease both';
+
+    const labels = {
+      service: 'Service demandé',
+      domaine: 'Domaine d\'activité',
+      secteur: 'Secteur',
+      type_site: 'Type de site',
+      type_app: 'Type d\'application',
+      usage_ia: 'Usage de l\'IA',
+      contenu: 'Contenu disponible',
+      fonctions: 'Fonctionnalités souhaitées',
+      nbr_postes: 'Nombre de postes',
+      existant: 'Situation actuelle',
+      site_existant: 'Site existant',
+      niveau_tech: 'Niveau numérique',
+      plateforme: 'Plateforme',
+      utilisateurs: 'Nombre d\'utilisateurs',
+      budget: 'Budget',
+      delai: 'Délai souhaité',
+      besoin_libre: 'Description du projet',
+      contact: 'Contact',
+    };
+
+    let rows = '';
+    for (const [key, val] of Object.entries(answers)) {
+      if (labels[key]) {
+        rows += `<div class="recap-row"><span class="recap-key">${labels[key]}</span><span class="recap-val">${val}</span></div>`;
+      }
+    }
+
+    recapEl.innerHTML = `
+      <div class="recap-card">
+        <h4>📋 Récapitulatif de votre projet</h4>
+        ${rows}
+      </div>
+      <button class="final-send-btn" onclick="finalSubmit()">Envoyer ma demande ↗</button>
+    `;
+    chatArea.appendChild(recapEl);
+    chatArea.scrollTop = chatArea.scrollHeight;
+
+    setTimeout(() => {
+      addBotMsg("Vérifiez que tout est correct puis cliquez sur \"Envoyer ma demande\". Notre équipe vous contactera sur WhatsApp dans les 24h. 🚀");
+    }, 600);
+  });
+}
+
+function finalSubmit() {
+  const contact = answers['contact'] || '';
+  const prenom = contact.split(/[-–]/)[0].trim();
+
+  const labels = {
+    service: 'Service demandé',
+    domaine: "Domaine d'activité",
+    secteur: 'Secteur',
+    type_site: 'Type de site',
+    type_app: "Type d'application",
+    usage_ia: "Usage de l'IA",
+    contenu: 'Contenu disponible',
+    fonctions: 'Fonctionnalités souhaitées',
+    nbr_postes: 'Nombre de postes',
+    existant: 'Situation actuelle',
+    site_existant: 'Site existant',
+    niveau_tech: 'Niveau numérique',
+    plateforme: 'Plateforme',
+    utilisateurs: "Nombre d'utilisateurs",
+    budget: 'Budget',
+    delai: 'Délai souhaité',
+    besoin_libre: 'Description du projet',
+    contact: 'Contact',
+  };
+
+  let msg = `🌟 *Nouvelle demande Nova Conception*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  for (const [key, val] of Object.entries(answers)) {
+    if (labels[key]) {
+      msg += `*${labels[key]}* : ${val}\n`;
+    }
+  }
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `_Envoyé depuis novaconception.com_`;
+
+  const encoded = encodeURIComponent(msg);
+  const waUrl = `https://wa.me/2250171542505?text=${encoded}`;
+
+  document.getElementById('chat-area').style.display = 'none';
+  const successEl = document.getElementById('chat-success');
+  successEl.style.display = 'block';
+  document.getElementById('success-msg').textContent =
+    `Merci ${prenom || ''} ! Vous allez être redirigé vers WhatsApp pour envoyer votre demande. Notre équipe vous répondra dans les 24h.`;
+
+  setTimeout(() => { window.open(waUrl, '_blank'); }, 1200);
+}
+
+/* ══════════════════════════════════
+   HELPERS UI
+══════════════════════════════════ */
+function addBotMsg(text) {
+  const chatArea = document.getElementById('chat-area');
+  const el = document.createElement('div');
+  el.className = 'msg bot';
+  el.innerHTML = `<div class="bot-avatar">N</div><div class="msg-bubble">${text}</div>`;
+  chatArea.appendChild(el);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function addUserMsg(text) {
+  const chatArea = document.getElementById('chat-area');
+  const el = document.createElement('div');
+  el.className = 'msg user';
+  el.innerHTML = `<div class="msg-bubble">${text}</div>`;
+  chatArea.appendChild(el);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function addOptions(opts, questionIndex) {
+  const chatArea = document.getElementById('chat-area');
+  const wrap = document.createElement('div');
+  wrap.className = `options-wrap opts-group-${questionIndex}`;
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.textContent = opt;
+    btn.onclick = () => handleOptionClick(opt, questionIndex, btn);
+    wrap.appendChild(btn);
+  });
+  chatArea.appendChild(wrap);
+  chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function showTyping(callback) {
+  const chatArea = document.getElementById('chat-area');
+  const typing = document.createElement('div');
+  typing.className = 'typing-bubble';
+  typing.innerHTML = `<div class="bot-avatar">N</div><div class="typing-dots"><span></span><span></span><span></span></div>`;
+  chatArea.appendChild(typing);
+  chatArea.scrollTop = chatArea.scrollHeight;
+
+  setTimeout(() => {
+    typing.remove();
+    callback();
+  }, 1100);
+}
+
+function setInputEnabled(enabled) {
+  const input = document.getElementById('chat-input');
+  const btn = document.getElementById('send-btn');
+  input.disabled = !enabled;
+  btn.disabled = !enabled;
+  input.style.opacity = enabled ? '1' : '0.4';
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+</script>
+</body>
+</html>
